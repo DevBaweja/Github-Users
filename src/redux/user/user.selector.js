@@ -11,3 +11,5 @@ export const selectLoading = createSelector(selectUser, user => user.loading);
 export const selectErrpr = createSelector(selectUser, user => user.error);
 
 export const selectQuery = createSelector(selectUser, user => user.query);
+
+export const selectTab = createSelector(selectUser, user => user.tab);

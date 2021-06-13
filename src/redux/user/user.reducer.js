@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     currentUser: {},
     allUsers: [],
     error: null,
+    tab: 0,
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -14,6 +15,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 query: action.payload,
+            };
+        case UserActionTypes.SET_TAB:
+            return {
+                ...state,
+                loading: false,
+                tab: action.payload,
             };
         case UserActionTypes.SEARCH_USERS_START:
             return { ...state, loading: true, allUsers: [], error: null };
@@ -59,6 +66,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 error: action.payload,
             };
+
         default:
             return state;
     }

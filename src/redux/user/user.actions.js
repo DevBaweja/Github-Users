@@ -5,6 +5,11 @@ export const setQuery = query => ({
     payload: query,
 });
 
+export const setTab = tab => ({
+    type: UserActionTypes.SET_TAB,
+    payload: tab,
+});
+
 export const searchUsersStart = () => ({
     type: UserActionTypes.SEARCH_USERS_START,
 });

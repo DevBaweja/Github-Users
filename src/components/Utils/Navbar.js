@@ -11,19 +11,19 @@ const Navbar = ({ icon, title }) => {
                 <BNavbar bg="light" expand="lg">
                     <BContainer>
                         <BNavbar.Brand>
-                            <FontAwesomeIcon icon={icon} /> {title}
+                            <FontAwesomeIcon icon={icon} /> <strong>{title}</strong>
                         </BNavbar.Brand>
                         <BNavbar.Toggle aria-controls="basic-navbar-nav" />
                         <BNavbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                             <BNav>
                                 <BNav.Link as={Link} href="/" to="/">
-                                    Home
+                                    <strong>Home</strong>
                                 </BNav.Link>
                                 <BNav.Link as={Link} href="/login" to="/login">
-                                    Login
+                                    <strong>Login</strong>
                                 </BNav.Link>
                                 <BNav.Link as={Link} href="/about" to="/about">
-                                    About
+                                    <strong>About</strong>
                                 </BNav.Link>
                             </BNav>
                         </BNavbar.Collapse>

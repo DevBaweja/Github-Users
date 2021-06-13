@@ -1,13 +1,21 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import Spinner from '../Utils/Spinner';
-import Repos from '../Repo/Repos';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
+
+import Repos from '../Repo/Repos';
+import Spinner from '../Utils/Spinner';
+import Tabs from '../Utils/Tabs';
+
+import { selectLoading } from '../../redux/user/user.selector';
 import GithubContext from '../../context/github/githubContext';
 
-const User = ({ match }) => {
+import { Container, Button, Row, Col, Image, Badge } from 'react-bootstrap';
+
+const User = ({ match, loading }) => {
     const githubContext = useContext(GithubContext);
 
-    const { getUser, loading, user, repos, getUserRepos } = githubContext;
+    const { getUser, user, repos, getUserRepos } = githubContext;
 
     useEffect(() => {
         getUser(match.params.username);
@@ -27,70 +35,105 @@ const User = ({ match }) => {
         following,
         public_repos,
         public_gists,
-        hireable,
     } = user;
 
     if (loading) return <Spinner />;
 
+    const details = [login, location, company, blog];
+    const detailsHtml = ['Username', 'Location', 'Company', 'Website'];
     return (
         <Fragment>
-            <Link to="/" className="btn btn-light">
-                Back To Search
-            </Link>
-            Hireable:{' '}
-            {hireable ? <i className="fas fa-check text-success" /> : <i className="fas fa-times-circle text-danger" />}
-            <div className="card grid-2">
-                <div className="all-center">
-                    <img src={avatar_url} className="round-img" alt="" style={{ width: '150px' }} />
-                    <h1>{name}</h1>
-                    <p>Location: {location}</p>
-                </div>
-                <div>
-                    {bio && (
-                        <Fragment>
-                            <h3>Bio</h3>
-                            <p>{bio}</p>
-                        </Fragment>
-                    )}
-                    <a href={html_url} className="btn btn-dark my-1">
-                        Visit Github Profile
-                    </a>
-                    <ul>
-                        <li>
-                            {login && (
+            <Container>
+                <Row>
+                    <Col>
+                        <Button as={Link} to="/" variant="dark" className="my-2">
+                            Back to Home
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={3}>
+                        <Row>
+                            <Image src={avatar_url} thumbnail className="mb-2" />
+                        </Row>
+                    </Col>
+                    <Col md={7}>
+                        <Row>
+                            <span>
+                                <h3>{name}</h3>
+                            </span>
+                            {bio && (
                                 <Fragment>
-                                    <strong>Username: </strong> {login}
+                                    <p>{bio}</p>
                                 </Fragment>
                             )}
-                        </li>
-
-                        <li>
-                            {company && (
-                                <Fragment>
-                                    <strong>Company: </strong> {company}
-                                </Fragment>
-                            )}
-                        </li>
-
-                        <li>
-                            {blog && (
-                                <Fragment>
-                                    <strong>Website: </strong> {blog}
-                                </Fragment>
-                            )}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="card text-center">
-                <div className="badge badge-primary">Followers: {followers}</div>
-                <div className="badge badge-success">Following: {following}</div>
-                <div className="badge badge-light">Public Repos: {public_repos}</div>
-                <div className="badge badge-dark">Public Gists: {public_gists}</div>
-            </div>
-            <Repos repos={repos} />
+                        </Row>
+                        <hr />
+                        <Row className="mt-2">
+                            <Col md={3}>
+                                <strong>Followers</strong>
+                                <p>{followers}</p>
+                            </Col>
+                            <Col md={3}>
+                                <strong>Following</strong>
+                                <p>{following}</p>
+                            </Col>
+                            <Col md={3}>
+                                <strong>Public Repos</strong>
+                                <p>{public_repos}</p>
+                            </Col>
+                            <Col md={3}>
+                                <strong>Public Gists</strong>
+                                <p>{public_gists}</p>
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col md={7}>
+                                {details.map((detail, index) => (
+                                    <Fragment>
+                                        {detail && (
+                                            <Row className="mb-2">
+                                                <Col md={6} className="ml-2">
+                                                    <strong>{detailsHtml[index]}</strong>
+                                                </Col>
+                                                <Col md={6}>{detail}</Col>
+                                            </Row>
+                                        )}
+                                    </Fragment>
+                                ))}
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col md={2}>
+                        <Row className="my-1">
+                            <Button variant="dark">Follow</Button>
+                        </Row>
+                        <Row className="my-1">
+                            <Button href={html_url} variant="light">
+                                View Github
+                            </Button>
+                        </Row>
+                    </Col>
+                </Row>
+                <hr />
+                <Tabs>
+                    Repos
+                    <Container>
+                        <Repos repos={repos} />
+                    </Container>
+                    Followers
+                    <Container>Followers</Container>
+                    Following
+                    <Container>Following</Container>
+                </Tabs>
+            </Container>
         </Fragment>
     );
 };
 
-export default User;
+const mapStateToProps = createStructuredSelector({
+    loading: selectLoading,
+});
+
+export default connect(mapStateToProps)(User);
