@@ -1,28 +1,28 @@
-import React, { useContext } from 'react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectLoading, selectAllUsers } from '../../redux/user/user.selector';
+
+import { Row, Col, Card } from 'react-bootstrap';
 import UserItem from './UserItem';
 import Spinner from '../Utils/Spinner';
-import GithubContext from '../../context/github/githubContext';
 
-const Users = () => {
-    const githubContext = useContext(GithubContext);
-
-    const { loading, users } = githubContext;
-
+const Users = ({ loading, allUsers }) => {
     if (loading) return <Spinner />;
-
     return (
-        <div style={userStyle}>
-            {users.map(user => (
-                <UserItem key={user.id} user={user} />
-            ))}
-        </div>
+        <Fragment>
+            <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                {allUsers.map(user => (
+                    <UserItem key={user.id} user={user} />
+                ))}
+            </Row>
+        </Fragment>
     );
 };
 
-const userStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gridGap: '1rem',
-};
+const mapStateToProps = createStructuredSelector({
+    loading: selectLoading,
+    allUsers: selectAllUsers,
+});
 
-export default Users;
+export default connect(mapStateToProps)(Users);

@@ -3,14 +3,20 @@ import UserActionTypes from './user.types';
 const INITIAL_STATE = {
     loading: false,
     query: '',
-    currentUser: null,
+    currentUser: {},
     allUsers: [],
     error: null,
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case UserActionTypes.SET_QUERY:
+            return {
+                ...state,
+                loading: false,
+                query: action.payload,
+            };
         case UserActionTypes.SEARCH_USERS_START:
-            return { ...state, loading: true, allUsers: null, error: null };
+            return { ...state, loading: true, allUsers: [], error: null };
         case UserActionTypes.SEARCH_USERS_SUCCESS:
             return {
                 ...state,
@@ -42,14 +48,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: false,
-                currentUser: null,
+                currentUser: {},
                 error: null,
             };
         case UserActionTypes.SIGN_IN_FAILURE:
         case UserActionTypes.SIGN_OUT_FAILURE:
             return {
                 ...state,
-                currentUser: null,
+                currentUser: {},
                 loading: false,
                 error: action.payload,
             };

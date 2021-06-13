@@ -1,19 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { setQuery, searchUsersStart } from '../../redux/user/user.actions';
+import { selectQuery } from '../../redux/user/user.selector';
 import GithubContext from '../../context/github/githubContext';
 import { Form, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 
-const Search = () => {
-    const githubContext = useContext(GithubContext);
-
-    const [text, setText] = useState('');
-
+const Search = ({ query, setQuery, searchUsers }) => {
     const onSubmit = e => {
         e.preventDefault();
-        githubContext.searchUsers(text);
-        setText('');
+        searchUsers();
     };
 
-    const onChange = event => setText(event.target.value);
+    const onChange = event => setQuery(event.target.value);
 
     return (
         <div className="text-center my-3">
@@ -22,7 +23,7 @@ const Search = () => {
                     <Col xm="auto">
                         <InputGroup>
                             <InputGroup.Text>@</InputGroup.Text>
-                            <FormControl placeholder="Username" value={text} onChange={onChange} />
+                            <FormControl placeholder="Username" value={query} onChange={onChange} />
                         </InputGroup>
                     </Col>
                     <Col xs="auto">
@@ -34,4 +35,9 @@ const Search = () => {
     );
 };
 
-export default Search;
+const mapStateToProps = createStructuredSelector({
+    query: selectQuery,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ setQuery, searchUsers: searchUsersStart }, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
