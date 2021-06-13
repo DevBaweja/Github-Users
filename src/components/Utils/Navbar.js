@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container as BContainer, Nav as BNav, Navbar as BNavbar } from 'react-bootstrap';
 
 const Navbar = ({ icon, title }) => {
-    const style = { all: 'unset', color: 'rgba(0,0,0,.9)' };
     return (
         <Fragment>
             <div className="my-3">
@@ -17,20 +16,14 @@ const Navbar = ({ icon, title }) => {
                         <BNavbar.Toggle aria-controls="basic-navbar-nav" />
                         <BNavbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                             <BNav>
-                                <BNav.Link>
-                                    <Link href="/" to="/" style={style}>
-                                        Home
-                                    </Link>
+                                <BNav.Link as={Link} href="/" to="/">
+                                    Home
                                 </BNav.Link>
-                                <BNav.Link>
-                                    <Link href="/login" to="/login" style={style}>
-                                        Login
-                                    </Link>
+                                <BNav.Link as={Link} href="/login" to="/login">
+                                    Login
                                 </BNav.Link>
-                                <BNav.Link>
-                                    <Link href="/about" to="/about" style={style}>
-                                        About
-                                    </Link>
+                                <BNav.Link as={Link} href="/about" to="/about">
+                                    About
                                 </BNav.Link>
                             </BNav>
                         </BNavbar.Collapse>

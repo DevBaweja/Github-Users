@@ -20,13 +20,13 @@ const Search = ({ query, setQuery, searchUsers }) => {
         <div className="text-center my-3">
             <Form onSubmit={onSubmit}>
                 <Row className="align-items-center">
-                    <Col xm="auto">
+                    <Col md={{ span: 5, offset: 3 }} className="mb-2">
                         <InputGroup>
                             <InputGroup.Text>@</InputGroup.Text>
                             <FormControl placeholder="Username" value={query} onChange={onChange} />
                         </InputGroup>
                     </Col>
-                    <Col xs="auto">
+                    <Col xs="auto" className="mb-2">
                         <Button type="submit">Search</Button>
                     </Col>
                 </Row>

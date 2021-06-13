@@ -12,10 +12,8 @@ const UserItem = ({ user: { login, avatar_url } }) => {
                 <Card.Body>
                     <Card.Title>{login}</Card.Title>
                 </Card.Body>
-                <Card.Footer className="text-muted">
-                    <Link to={`/user/${login}`} style={style}>
-                        View Profile
-                    </Link>
+                <Card.Footer as={Link} to={`/user/${login}`} className="text-muted text-decoration-none">
+                    View Profile
                 </Card.Footer>
             </Card>
         </Col>
