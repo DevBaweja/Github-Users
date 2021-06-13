@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectLoading, selectAllUsers } from '../../redux/user/user.selector';
 
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import UserItem from './UserItem';
 import Spinner from '../Utils/Spinner';
 

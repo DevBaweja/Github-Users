@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { takeLatest, put, all, call, select } from 'redux-saga/effects';
 import UserActionTypes from './user.types';
-import { searchUsersSuccess, searchUsersFailure } from './user.actions';
+import { searchUsersSuccess, searchUsersFailure, getShowUserSuccess, getShowUserFailure } from './user.actions';
 import { selectQuery } from './user.selector';
 import urls from '../variables';
 
@@ -24,6 +24,25 @@ export function* onSearchUsersStart() {
     yield takeLatest(UserActionTypes.SEARCH_USERS_START, searchUsers);
 }
 
+export function* getUser(action) {
+    const username = action.payload;
+    try {
+        const response = yield call(() =>
+            axios({
+                method: 'GET',
+                url: `${urls.api}/users/${username}`,
+            })
+        );
+        yield put(getShowUserSuccess(response.data));
+    } catch (error) {
+        yield put(getShowUserFailure(error));
+    }
+}
+
+export function* onGetUserStart() {
+    yield takeLatest(UserActionTypes.GET_SHOW_USER_START, getUser);
+}
+
 export function* userSagas() {
-    yield all([call(onSearchUsersStart)]);
+    yield all([call(onSearchUsersStart), call(onGetUserStart)]);
 }

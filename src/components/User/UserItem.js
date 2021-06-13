@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Col, Card } from 'react-bootstrap';
 
 const UserItem = ({ user: { login, avatar_url } }) => {
-    const style = { all: 'unset', cursor: 'pointer', color: 'rgba(0,0,0,0.9)' };
     return (
         <Col>
             <Card variant="light" className="text-center">

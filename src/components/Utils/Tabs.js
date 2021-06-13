@@ -35,6 +35,7 @@ const Tabs = ({ tab, setTab, children }) => {
         });
     };
 
+    // console.log({ tab, index });
     return (
         <Container>
             <div className="tabs">

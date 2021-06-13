@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useContext } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
@@ -7,19 +8,22 @@ import Repos from '../Repo/Repos';
 import Spinner from '../Utils/Spinner';
 import Tabs from '../Utils/Tabs';
 
-import { selectLoading } from '../../redux/user/user.selector';
+import { selectLoading, selectShowUser } from '../../redux/user/user.selector';
+import { getShowUserStart } from '../../redux/user/user.actions';
 import GithubContext from '../../context/github/githubContext';
 
-import { Container, Button, Row, Col, Image, Badge } from 'react-bootstrap';
+import { Container, Button, Row, Col, Image } from 'react-bootstrap';
 
-const User = ({ match, loading }) => {
+const User = ({ match, loading, showUser, getShowUser }) => {
     const githubContext = useContext(GithubContext);
 
-    const { getUser, user, repos, getUserRepos } = githubContext;
+    const { repos, getUserRepos } = githubContext;
 
     useEffect(() => {
-        getUser(match.params.username);
-        getUserRepos(match.params.username);
+        const { username } = match.params;
+        getShowUser(username);
+        getUserRepos(username);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const {
@@ -35,7 +39,7 @@ const User = ({ match, loading }) => {
         following,
         public_repos,
         public_gists,
-    } = user;
+    } = showUser;
 
     if (loading) return <Spinner />;
 
@@ -44,9 +48,9 @@ const User = ({ match, loading }) => {
     return (
         <Fragment>
             <Container>
-                <Row>
+                <Row className="my-3">
                     <Col>
-                        <Button as={Link} to="/" variant="dark" className="my-2">
+                        <Button as={Link} to="/" variant="dark">
                             Back to Home
                         </Button>
                     </Col>
@@ -69,7 +73,7 @@ const User = ({ match, loading }) => {
                             )}
                         </Row>
                         <hr />
-                        <Row className="mt-2">
+                        <Row className="mt-2 text-center">
                             <Col md={3}>
                                 <strong>Followers</strong>
                                 <p>{followers}</p>
@@ -91,10 +95,10 @@ const User = ({ match, loading }) => {
                         <Row>
                             <Col md={7}>
                                 {details.map((detail, index) => (
-                                    <Fragment>
+                                    <Fragment key={index}>
                                         {detail && (
                                             <Row className="mb-2">
-                                                <Col md={6} className="ml-2">
+                                                <Col md={{ offset: 1, span: 5 }}>
                                                     <strong>{detailsHtml[index]}</strong>
                                                 </Col>
                                                 <Col md={6}>{detail}</Col>
@@ -134,6 +138,9 @@ const User = ({ match, loading }) => {
 
 const mapStateToProps = createStructuredSelector({
     loading: selectLoading,
+    showUser: selectShowUser,
 });
 
-export default connect(mapStateToProps)(User);
+const mapDispatchToProps = dispatch => bindActionCreators({ getShowUser: getShowUserStart }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

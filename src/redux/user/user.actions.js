@@ -10,6 +10,21 @@ export const setTab = tab => ({
     payload: tab,
 });
 
+export const getShowUserStart = username => ({
+    type: UserActionTypes.GET_SHOW_USER_START,
+    payload: username,
+});
+
+export const getShowUserSuccess = showUser => ({
+    type: UserActionTypes.GET_SHOW_USER_SUCCESS,
+    payload: showUser,
+});
+
+export const getShowUserFailure = error => ({
+    type: UserActionTypes.GET_SHOW_USER_FAILURE,
+    payload: error,
+});
+
 export const searchUsersStart = () => ({
     type: UserActionTypes.SEARCH_USERS_START,
 });
@@ -28,30 +43,30 @@ export const checkUserSession = () => ({
     type: UserActionTypes.CHECK_USER_SESSION,
 });
 
-export const signInStart = userCredentials => ({
-    type: UserActionTypes.SIGN_IN_START,
+export const logInStart = userCredentials => ({
+    type: UserActionTypes.LOG_IN_START,
     payload: userCredentials,
 });
 
-export const signInSuccess = currentUser => ({
-    type: UserActionTypes.SIGN_IN_SUCCESS,
+export const logInSuccess = currentUser => ({
+    type: UserActionTypes.LOG_IN_SUCCESS,
     payload: currentUser,
 });
 
-export const signInFailure = error => ({
-    type: UserActionTypes.SIGN_IN_FAILURE,
+export const logInFailure = error => ({
+    type: UserActionTypes.LOG_IN_FAILURE,
     payload: error,
 });
 
-export const signOutStart = () => ({
-    type: UserActionTypes.SIGN_OUT_START,
+export const logOutStart = () => ({
+    type: UserActionTypes.LOG_OUT_START,
 });
 
-export const signOutSuccess = () => ({
-    type: UserActionTypes.SIGN_OUT_SUCCESS,
+export const logOutSuccess = () => ({
+    type: UserActionTypes.LOG_OUT_SUCCESS,
 });
 
-export const signOutFailure = error => ({
-    type: UserActionTypes.SIGN_OUT_FAILURE,
+export const logOutFailure = error => ({
+    type: UserActionTypes.LOG_OUT_FAILURE,
     payload: error,
 });

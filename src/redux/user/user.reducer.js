@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     allUsers: [],
     error: null,
     tab: 0,
+    showUser: {},
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -24,11 +25,20 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
         case UserActionTypes.SEARCH_USERS_START:
             return { ...state, loading: true, allUsers: [], error: null };
+        case UserActionTypes.GET_SHOW_USER_START:
+            return { ...state, loading: true, showUser: {}, error: null };
         case UserActionTypes.SEARCH_USERS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 allUsers: action.payload,
+                error: null,
+            };
+        case UserActionTypes.GET_SHOW_USER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                showUser: action.payload,
                 error: null,
             };
         case UserActionTypes.SEARCH_USERS_FAILURE:
@@ -38,28 +48,35 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 allUsers: [],
                 error: action.payload,
             };
+        case UserActionTypes.GET_SHOW_USER_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                showUser: {},
+                error: action.payload,
+            };
         case UserActionTypes.CLEAR_USERS:
             return { ...state, loading: false, allUsers: [], error: null };
-        case UserActionTypes.SIGN_IN_START:
+        case UserActionTypes.LOG_IN_START:
             return { ...state, loading: true, error: null };
-        case UserActionTypes.SIGN_OUT_START:
+        case UserActionTypes.LOG_OUT_START:
             return { ...state, loading: true, error: null };
-        case UserActionTypes.SIGN_IN_SUCCESS:
+        case UserActionTypes.LOG_IN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 currentUser: action.payload,
                 error: null,
             };
-        case UserActionTypes.SIGN_OUT_SUCCESS:
+        case UserActionTypes.LOG_OUT_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 currentUser: {},
                 error: null,
             };
-        case UserActionTypes.SIGN_IN_FAILURE:
-        case UserActionTypes.SIGN_OUT_FAILURE:
+        case UserActionTypes.LOG_IN_FAILURE:
+        case UserActionTypes.LOG_OUT_FAILURE:
             return {
                 ...state,
                 currentUser: {},

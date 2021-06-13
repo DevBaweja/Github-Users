@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import GithubContext from '../../context/github/githubContext';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
-const Login = () => {
+const Login = ({ login, setLogin }) => {
     const githubContext = useContext(GithubContext);
 
     const [text, setText] = useState('');

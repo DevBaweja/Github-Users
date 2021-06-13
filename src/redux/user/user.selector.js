@@ -4,6 +4,8 @@ const selectUser = state => state.user;
 
 export const selectCurrentUser = createSelector(selectUser, user => user.currentUser);
 
+export const selectShowUser = createSelector(selectUser, user => user.showUser);
+
 export const selectAllUsers = createSelector(selectUser, user => user.allUsers);
 
 export const selectLoading = createSelector(selectUser, user => user.loading);
